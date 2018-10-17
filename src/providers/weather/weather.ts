@@ -36,6 +36,25 @@ export class WeatherProvider extends NetworkProvider {
     })
   }
 
+  getLocationWeather(coords) {
+    return new Promise(resolve => {
+      if (localStorage["location"] != null && this.cache) {
+        var now = JSON.parse(localStorage["location"]);
+        now = this.formatWeatherObject(now);
+        resolve(now);
+      } else {
+        this.get('weather', 'lat=' + coords.latitude + "&lon=" + coords.longitude).subscribe(data => {
+          var now = data.body
+          localStorage["location"] = JSON.stringify(now);
+          now = this.formatWeatherObject(now);
+          resolve(now);
+        }, error => {
+          console.log("No weather returned");
+        })
+      }
+    })
+  }
+
   getFiveDayWeather(city_name) {
     return new Promise(resolve => {
       if (localStorage["forecast"] != null && this.cache) {
@@ -44,6 +63,22 @@ export class WeatherProvider extends NetworkProvider {
         this.get('forecast', 'q=' + city_name).subscribe(data => {
           var forecast = this.processForecastData(data.body.list);
           localStorage["forecast"] = JSON.stringify(forecast);
+          resolve(forecast);
+        }, error => {
+          console.log("No 5 day forcast returned");
+        })
+      }
+    })
+  }
+
+  getLocationFiveDayWeather(coords) {
+    return new Promise(resolve => {
+      if (localStorage["location_forecast"] != null && this.cache) {
+        resolve(JSON.parse(localStorage["location_forecast"]))
+      } else {
+        this.get('forecast', 'lat=' + coords.latitude + "&lon=" + coords.longitude).subscribe(data => {
+          var forecast = this.processForecastData(data.body.list);
+          localStorage["location_forecast"] = JSON.stringify(forecast);
           resolve(forecast);
         }, error => {
           console.log("No 5 day forcast returned");
