@@ -7,12 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { ListPage } from '../pages/list/list';
 import { WeatherProvider } from '../providers/weather/weather';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    ListPage
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,8 @@ import { WeatherProvider } from '../providers/weather/weather';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    ListPage
   ],
   providers: [
     StatusBar,

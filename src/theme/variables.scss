@@ -46,7 +46,11 @@ $colors: (
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
+.ios {
+  h2 {
+    font-size: 14px;
+  }
+}
 
 
 // App Material Design Variables

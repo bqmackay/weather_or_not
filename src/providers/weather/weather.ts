@@ -11,13 +11,15 @@ import { NetworkProvider } from '../network-provider'
 @Injectable()
 export class WeatherProvider extends NetworkProvider {
 
+  cache: Boolean = true
+
   constructor(public http: HttpClient) {
     super(http);
   }
 
   getCityWeather(city_name) {
     return new Promise(resolve => {
-      if (localStorage["now"] != null) {
+      if (localStorage["now"] != null && this.cache) {
         var now = JSON.parse(localStorage["now"]);
         now = this.formatWeatherObject(now);
         resolve(now);
@@ -36,7 +38,9 @@ export class WeatherProvider extends NetworkProvider {
 
   getFiveDayWeather(city_name) {
     return new Promise(resolve => {
-      if (localStorage["forecast"] == null) {
+      if (localStorage["forecast"] != null && this.cache) {
+        resolve(JSON.parse(localStorage["forecast"]))
+      } else {
         this.get('forecast', 'q=' + city_name).subscribe(data => {
           var forecast = this.processForecastData(data.body.list);
           localStorage["forecast"] = JSON.stringify(forecast);
@@ -44,8 +48,6 @@ export class WeatherProvider extends NetworkProvider {
         }, error => {
           console.log("No 5 day forcast returned");
         })
-      } else {
-        resolve(JSON.parse(localStorage["forecast"]))
       }
     })
   }
