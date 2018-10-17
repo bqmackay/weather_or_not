@@ -13,11 +13,14 @@ export class WeatherProvider extends NetworkProvider {
 
   constructor(public http: HttpClient) {
     super(http);
-    console.log('Hello WeatherProvider');
   }
 
   getCityWeather(city_name) {
-    return this.get('q=Provo');
+    return this.get('weather', 'q=' + city_name);
+  }
+
+  getFiveDayWeather(city_name) {
+    return this.get('forecast', 'q=' + city_name);
   }
 
 }
