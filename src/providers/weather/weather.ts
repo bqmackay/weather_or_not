@@ -36,7 +36,8 @@ export class WeatherProvider extends NetworkProvider {
   getFiveDayWeather(city_name) {
     return new Promise(resolve => {
       this.get('forecast', 'q=' + city_name).then(body => {
-        var forecast = this.processForecastData(body.list);
+        var b: any = body
+        var forecast = this.processForecastData(b.list);
         resolve(forecast);
       })
     })
@@ -45,7 +46,8 @@ export class WeatherProvider extends NetworkProvider {
   getLocationFiveDayWeather(coords) {
     return new Promise(resolve => {
       this.get('forecast', 'lat=' + coords.latitude + "&lon=" + coords.longitude).then(body => {
-        var forecast = this.processForecastData(body.list);
+        var b: any = body
+        var forecast = this.processForecastData(b.list);
         resolve(forecast);
       })
     })
