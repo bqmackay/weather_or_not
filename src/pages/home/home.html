@@ -11,26 +11,4 @@
   <h2>{{ now?.dt_txt }}</h2>
   <img [src]="now?.weather[0].icon" />
   <h4>{{ now?.main.temp | number:0 }}˚ </h4>
-
-  <h1>Weather Forcast</h1>
-  <p>
-    <ion-scroll scrollX style="height:200px; white-space:nowrap">
-      <ion-col col-2 style="display: inline-block; text-align:center;" *ngFor="let day of fiveDayWeather">
-        <h2>{{ day.dt_txt }}</h2>
-        <img [src]="day.weather[0].icon" />
-        <h4>{{ day.main.temp | number:0 }}˚ </h4>
-      </ion-col>
-    </ion-scroll>
-
-    <!-- <ion-list>
-      <ion-item *ngFor="let day of fiveDayWeather">
-        <div class="flex-column">
-          <div class="center-item-text">{{ day.dt_txt }}</div>
-          <img [src]="day.weather[0].icon" />
-          <div class="center-item-text">{{ day.main.temp | number:0 }}˚ </div>
-        </div>
-      </ion-item>
-    </ion-list> -->
-    
-  </p>
 </ion-content>

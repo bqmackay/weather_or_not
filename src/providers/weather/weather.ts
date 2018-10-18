@@ -24,33 +24,6 @@ export class WeatherProvider extends NetworkProvider {
     })
   }
 
-  getLocationWeather(coords) {
-    return new Promise(resolve => {
-      this.get('weather', 'lat=' + coords.latitude + "&lon=" + coords.longitude).then(body => {
-        let weather = this.formatWeatherObject(body);
-        resolve(weather);
-      })
-    })
-  }
-
-  getFiveDayWeather(city_name) {
-    return new Promise(resolve => {
-      this.get('forecast', 'q=' + city_name).then(body => {
-        var forecast = this.processForecastData(body.list);
-        resolve(forecast);
-      })
-    })
-  }
-
-  getLocationFiveDayWeather(coords) {
-    return new Promise(resolve => {
-      this.get('forecast', 'lat=' + coords.latitude + "&lon=" + coords.longitude).then(body => {
-        var forecast = this.processForecastData(body.list);
-        resolve(forecast);
-      })
-    })
-  }
-
   formatWeatherObject(weatherObject) {
     weatherObject.weather[0].icon = "http://openweathermap.org/img/w/" + weatherObject.weather[0].icon + ".png";
     weatherObject.dt_txt = new Date();

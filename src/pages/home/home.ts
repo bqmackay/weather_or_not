@@ -17,10 +17,6 @@ export class HomePage {
     this.weatherProvider.getCityWeather("Provo").then(data => {
       this.now = data;
     })
-
-    this.weatherProvider.getFiveDayWeather("Provo").then(data => {
-      this.fiveDayWeather = data;
-    })
   }
 
 }
