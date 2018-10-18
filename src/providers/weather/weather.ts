@@ -11,79 +11,43 @@ import { NetworkProvider } from '../network-provider'
 @Injectable()
 export class WeatherProvider extends NetworkProvider {
 
-  cache: Boolean = true
-
   constructor(public http: HttpClient) {
     super(http);
   }
 
   getCityWeather(city_name) {
     return new Promise(resolve => {
-      if (localStorage["now"] != null && this.cache) {
-        var now = JSON.parse(localStorage["now"]);
-        now = this.formatWeatherObject(now);
-        resolve(now);
-      } else {
-        this.get('weather', 'q=' + city_name).subscribe(data => {
-          var now = data.body
-          localStorage["now"] = JSON.stringify(now);
-          now = this.formatWeatherObject(now);
-          resolve(now);
-        }, error => {
-          console.log("No weather returned");
-        })
-      }
+      this.get('weather', 'q=' + city_name).then(body => {
+        var weather = this.formatWeatherObject(body);
+        resolve(weather);
+      })
     })
   }
 
   getLocationWeather(coords) {
     return new Promise(resolve => {
-      if (localStorage["location"] != null && this.cache) {
-        var now = JSON.parse(localStorage["location"]);
-        now = this.formatWeatherObject(now);
-        resolve(now);
-      } else {
-        this.get('weather', 'lat=' + coords.latitude + "&lon=" + coords.longitude).subscribe(data => {
-          var now = data.body
-          localStorage["location"] = JSON.stringify(now);
-          now = this.formatWeatherObject(now);
-          resolve(now);
-        }, error => {
-          console.log("No weather returned");
-        })
-      }
+      this.get('weather', 'lat=' + coords.latitude + "&lon=" + coords.longitude).then(body => {
+        let weather = this.formatWeatherObject(body);
+        resolve(weather);
+      })
     })
   }
 
   getFiveDayWeather(city_name) {
     return new Promise(resolve => {
-      if (localStorage["forecast"] != null && this.cache) {
-        resolve(JSON.parse(localStorage["forecast"]))
-      } else {
-        this.get('forecast', 'q=' + city_name).subscribe(data => {
-          var forecast = this.processForecastData(data.body.list);
-          localStorage["forecast"] = JSON.stringify(forecast);
-          resolve(forecast);
-        }, error => {
-          console.log("No 5 day forcast returned");
-        })
-      }
+      this.get('forecast', 'q=' + city_name).then(body => {
+        var forecast = this.processForecastData(body.list);
+        resolve(forecast);
+      })
     })
   }
 
   getLocationFiveDayWeather(coords) {
     return new Promise(resolve => {
-      if (localStorage["location_forecast"] != null && this.cache) {
-        resolve(JSON.parse(localStorage["location_forecast"]))
-      } else {
-        this.get('forecast', 'lat=' + coords.latitude + "&lon=" + coords.longitude).subscribe(data => {
-          var forecast = this.processForecastData(data.body.list);
-          localStorage["location_forecast"] = JSON.stringify(forecast);
-          resolve(forecast);
-        }, error => {
-          console.log("No 5 day forcast returned");
-        })
-      }
+      this.get('forecast', 'lat=' + coords.latitude + "&lon=" + coords.longitude).then(body => {
+        var forecast = this.processForecastData(body.list);
+        resolve(forecast);
+      })
     })
   }
 
@@ -96,6 +60,9 @@ export class WeatherProvider extends NetworkProvider {
   processForecastData(data) {
     for (let day of data) {
       var date = new Date(day.dt_txt);
+      var offset = date.getTimezoneOffset() / 60;
+      var hour = date.getHours() - offset;
+      date.setHours(hour);
       var hour = date.getHours();
       var isMorning = hour < 12;
 

@@ -15,9 +15,7 @@ export class HomePage {
   fiveDayWeather: object;
 
   constructor(public navCtrl: NavController, public weatherProvider: WeatherProvider, private geolocation: Geolocation) {
-    console.log('here1');
     this.geolocation.getCurrentPosition().then( (resp) => {
-      console.log('here');
       this.weatherProvider.getLocationWeather(resp.coords).then(data => {
         this.now = data;
       })
@@ -28,14 +26,6 @@ export class HomePage {
     }).catch((error) => {
       console.log('error', error)
     });
-
-    // this.weatherProvider.getCityWeather('Provo').then(data => {
-    //   this.now = data;
-    // })
-    //
-    // this.weatherProvider.getFiveDayWeather('Provo').then(data => {
-    //   this.fiveDayWeather = data;
-    // })
 
   }
 
