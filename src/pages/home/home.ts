@@ -23,10 +23,4 @@ export class HomePage {
     })
   }
 
-  openList() {
-    this.navCtrl.push(ListPage, {
-      fiveDayWeather: this.fiveDayWeather
-    });
-  }
-
 }

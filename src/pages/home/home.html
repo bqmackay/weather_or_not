@@ -14,7 +14,7 @@
 
   <h1>Weather Forcast</h1>
   <p>
-    <ion-scroll scrollX style="height:200px; white-space:nowrap" (click)="openList();">
+    <ion-scroll scrollX style="height:200px; white-space:nowrap">
       <ion-col col-2 style="display: inline-block; text-align:center;" *ngFor="let day of fiveDayWeather">
         <h2>{{ day.dt_txt }}</h2>
         <img [src]="day.weather[0].icon" />
@@ -31,5 +31,6 @@
         </div>
       </ion-item>
     </ion-list> -->
+    
   </p>
 </ion-content>
