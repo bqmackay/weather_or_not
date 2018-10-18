@@ -10,8 +10,6 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { WeatherProvider } from '../providers/weather/weather';
 
-import { Geolocation } from '@ionic-native/geolocation';
-
 @NgModule({
   declarations: [
     MyApp,
@@ -33,7 +31,6 @@ import { Geolocation } from '@ionic-native/geolocation';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Geolocation,
     WeatherProvider,
   ]
 })
