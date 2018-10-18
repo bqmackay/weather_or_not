@@ -15,23 +15,19 @@ export class WeatherProvider extends NetworkProvider {
     super(http);
   }
 
-  getCityWeather(city_name) {
-    return new Promise(resolve => {
-      this.get('weather', 'q=' + city_name).then(body => {
-        var weather = this.formatWeatherObject(body);
-        resolve(weather);
-      })
-    })
-  }
-
+  //Reformats certain elements of the weather object to make it more frontend friendly
   formatWeatherObject(weatherObject) {
+    //insert icon url
     weatherObject.weather[0].icon = "http://openweathermap.org/img/w/" + weatherObject.weather[0].icon + ".png";
+    //update date with current date from browser
     weatherObject.dt_txt = new Date();
     return weatherObject;
   }
 
+  //Reformats certain elements of the forecast data to make it more frontend friendly
   processForecastData(data) {
     for (let day of data) {
+      //adjust hours to local time and 12 hour clock
       var date = new Date(day.dt_txt);
       var offset = date.getTimezoneOffset() / 60;
       var hour = date.getHours() - offset;
@@ -50,6 +46,7 @@ export class WeatherProvider extends NetworkProvider {
       //format temp
       day.main.temp = parseInt(day.main.temp);
 
+      //insert icon url
       day.weather[0].icon = "http://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
     }
     return data;

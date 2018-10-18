@@ -8,6 +8,8 @@ export class NetworkProvider {
 
   constructor(public http: HttpClient) {}
 
+  //performs a get call
+  //also performs a simple version of caching. The purpose is to avoid API rate limits.
   get(path, params) {
     return new Promise(resolve => {
       const cacheKey = path;

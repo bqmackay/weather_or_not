@@ -10,13 +10,8 @@ import { ListPage } from '../list/list';
 })
 export class HomePage {
 
-  now: object;
-  fiveDayWeather: object;
-
   constructor(public navCtrl: NavController, public weatherProvider: WeatherProvider) {
-    this.weatherProvider.getCityWeather("Provo").then(data => {
-      this.now = data;
-    })
+
   }
 
 }
